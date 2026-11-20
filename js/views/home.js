@@ -60,7 +60,7 @@ export function render() {
       <div class="teaser-box" data-reveal>
         ${blobSVG('#fde3e8', 3, 'teaser-blob')}
         ${giftbox('b9', TEASER_BOX.map(([fudge, crust]) => ({ fudge, crust, qty: 1 })))}
-        <img class="teaser-seal" src="assets/logo-marca.svg" alt="">
+        <img class="teaser-seal" src="assets/logo-icone.webp" alt="">
       </div>
     </div>
   </section>
@@ -92,7 +92,7 @@ export function render() {
   <section class="section pack">
     <div class="wrap pack-grid">
       <div class="pack-visual" data-reveal>
-        <div class="pk pk-lid-a"><img src="assets/logo-marca.svg" alt=""></div>
+        <div class="pk pk-lid-a"><img src="assets/logo-icone.webp" alt=""></div>
         <div class="pk pk-lid-b"></div>
         <div class="pk pk-long"><i></i><i></i><i></i><i></i></div>
       </div>
@@ -107,7 +107,7 @@ export function render() {
   <section class="section story" id="historia">
     <div class="story-band">
       <div class="wrap story-grid">
-        <div class="story-seal" data-reveal><img src="assets/logo-selo.svg" alt="Porto Sweets"></div>
+        <div class="story-seal" data-reveal><div class="story-logo"><img src="assets/logo-marca.webp" alt="Porto Sweets"></div></div>
         <div class="story-copy" data-reveal>
           <p class="eyebrow">${t('story.eyebrow')}</p>
           <h2>${t('story.title')}</h2>

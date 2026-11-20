@@ -213,7 +213,7 @@ export function renderOrder(params) {
   const all = o.items.flatMap((i) => i.contents).slice(0, 9);
   return `<section class="order-ok wrap page-pad">
     <div class="ok-card card">
-      <img class="ok-seal" src="assets/logo-selo.svg" alt="">
+      <img class="ok-seal" src="assets/logo-completo.webp" alt="Porto Sweets">
       <h1 class="display-2">${t('ok.title')}</h1>
       <p class="lead">${t('ok.text', { name: esc(o.name.split(' ')[0]), id: `<b>${o.id}</b>`, email: esc(o.email) })}</p>
       <p class="ok-when">${o.method === 'pickup' ? ICON.pin : ICON.truck} ${when}</p>
@@ -237,7 +237,7 @@ export function renderAccount() {
   const u = account.data.user;
   if (!u) {
     return `<section class="account wrap page-pad"><div class="login card">
-      <img class="login-seal" src="assets/logo-marca.svg" alt="">
+      <img class="login-seal" src="assets/logo-icone.webp" alt="">
       <h1 class="display-2">${t('acc.loginT')}</h1><p class="muted">${t('acc.loginX')}</p>
       <form id="login" novalidate>${field('name', t('co.name'))}${field('email', t('co.email'), 'email')}
       <button class="btn btn-primary btn-wide">${t('acc.enter')}</button></form></div></section>`;

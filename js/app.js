@@ -84,7 +84,7 @@ const footer = document.getElementById('footer');
 
 function renderHeader() {
   header.innerHTML = `<div class="wrap hdr">
-    <a class="brand" href="#/" aria-label="Porto Sweets"><img src="assets/logo-marca.svg" alt=""><span>Porto Sweets</span></a>
+    <a class="brand" href="#/" aria-label="Porto Sweets"><img src="assets/logo-icone.webp" alt=""><span>Porto Sweets</span></a>
     <nav class="nav" id="nav">
       <a href="#/montador" data-nav="montador">${t('nav.builder')}</a>
       <a href="#/loja" data-nav="loja">${t('nav.shop')}</a>
@@ -101,7 +101,7 @@ function renderHeader() {
 }
 function renderFooter() {
   footer.innerHTML = `<div class="wrap foot">
-    <div class="foot-brand"><img src="assets/logo-selo.svg" alt="Porto Sweets"><p>${t('foot.tag')}</p></div>
+    <div class="foot-brand"><img src="assets/logo-completo.webp" alt="Porto Sweets"><p>${t('foot.tag')}</p></div>
     <div><h4>${t('foot.nav')}</h4><a href="#/montador">${t('nav.builder')}</a><a href="#/loja">${t('nav.shop')}</a><button type="button" data-goto="historia">${t('nav.story')}</button><a href="#/conta">${t('nav.account')}</a></div>
     <div><h4>${t('foot.visit')}</h4><p>${t('foot.visitText', { free: money(FREE_SHIPPING) })}</p></div>
     <!-- Redes sociais: os ícones (ICON.instagram/tiktok/facebook/whatsapp em ui.js) voltam quando os perfis existirem -->

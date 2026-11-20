@@ -614,3 +614,18 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 .b-name { margin: -6px 0 12px; font-size: clamp(1.3rem, 2vw, 1.8rem); }
 .b-col { padding: 20px; }
 @media (max-width: 900px) { .b-stage { height: min(360px, 52vh); } }
+
+/* logo v2 (aquarela) */
+.brand img { width: 48px; height: 48px; object-fit: contain; }
+.brand span { font-style: normal; font-weight: 700; color: var(--choc); font-variation-settings: 'SOFT' 100, 'WONK' 1, 'opsz' 72; }
+.foot-brand img { width: 190px; }
+.teaser-seal { width: 130px; filter: drop-shadow(0 10px 16px rgba(58, 31, 20, .25)); }
+.pk-lid-a img { width: 44%; filter: none; }
+.story-logo { width: min(400px, 100%); aspect-ratio: 1; margin: auto; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #fffdf9, #f6efe4 70%); display: grid; place-items: center; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .55), inset 0 0 0 10px rgba(255, 255, 255, .4); animation: floaty 7s ease-in-out infinite; }
+.story-logo img { width: 82%; filter: none; animation: none; }
+.story-seal img { filter: none; }
+.ok-seal { width: 220px; }
+.login-seal { width: 96px; }
+.loader-seal { width: 84px; margin: -118px 0 0 -42px; }
+@media (max-width: 900px) { .story-logo { width: 260px; } .brand img { width: 42px; height: 42px; } }
+.pk-lid-a img { width: 40%; background: #fbf8f3; border-radius: 50%; padding: 3%; box-shadow: 0 10px 20px rgba(0, 0, 0, .25); }
