@@ -633,3 +633,6 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 #loader { gap: 18px; justify-items: center; }
 .loader-seal { position: static; margin: 0; width: 120px; order: -1; }
 #loader .goo { width: 120px; height: 120px; }
+#loader { gap: 0; }
+#loader .goo { margin-top: -18px; }
+#loader p { margin-top: 10px; }
