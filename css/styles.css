@@ -636,3 +636,5 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 #loader { gap: 0; }
 #loader .goo { margin-top: -18px; }
 #loader p { margin-top: 10px; }
+.marquee + .section.featured { padding-top: 72px; }
+@media (max-width: 900px) { .marquee + .section.featured { padding-top: 48px; } }

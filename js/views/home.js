@@ -33,6 +33,14 @@ export function render() {
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track">${mq}${mq}</div></div>
 
+  <section class="section featured">
+    <div class="wrap">
+      <div class="sec-head row" data-reveal><div><p class="eyebrow">${t('feat.eyebrow')}</p><h2>${t('feat.title')}</h2></div>
+        <a class="link-arrow" href="#/loja">${t('feat.all')} ${ICON.arrow}</a></div>
+      <div class="pgrid">${featured.map(productCard).join('')}</div>
+    </div>
+  </section>
+
   <section class="section what" id="sobre">
     <div class="wrap">
       <div class="sec-head" data-reveal><p class="eyebrow">${t('what.eyebrow')}</p><h2>${t('what.title')}</h2><p class="lead">${t('what.lead')}</p></div>
@@ -78,9 +86,6 @@ export function render() {
           <a class="btn btn-small" href="#/montador?box=${b.id}">${t('boxes.cta')}</a>
         </article>`).join('')}
       </div>
-      <div class="sec-head row sub" data-reveal><div><p class="eyebrow">${t('feat.eyebrow')}</p><h3 class="sub-h">${t('feat.title')}</h3></div>
-        <a class="link-arrow" href="#/loja">${t('feat.all')} ${ICON.arrow}</a></div>
-      <div class="pgrid">${featured.map(productCard).join('')}</div>
       <div class="deliv" data-reveal>
         <div>${ICON.truck}<span><b>${t('deliv.delivery')}</b> · ${t('deliv.deliveryText', { fee: money(DELIVERY_FEE), free: money(FREE_SHIPPING) })}</span></div>
         <div>${ICON.pin}<span><b>${t('deliv.pickup')}</b> · ${t('deliv.pickupText')}</span></div>
