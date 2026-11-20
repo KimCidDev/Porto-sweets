@@ -47,7 +47,7 @@ em { font-style: italic; }
 
 .wrap { width: min(1240px, 100% - 48px); margin-inline: auto; }
 .page-pad { padding-block: 40px 100px; }
-.section { padding-block: clamp(80px, 11vw, 150px); position: relative; }
+.section { padding-block: 96px; position: relative; }
 .eyebrow { font: 600 .78rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--rasp); margin-bottom: 18px; display: inline-flex; align-items: center; gap: 10px; }
 .eyebrow::before { content: ''; width: 22px; height: 2px; background: currentColor; border-radius: 2px; }
 .display { font-size: clamp(3rem, 7.4vw, 6.6rem); line-height: .96; letter-spacing: -.03em; }
@@ -186,9 +186,9 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 .hero-tags .hint { position: absolute; bottom: -4px; left: 0; right: 0; }
 
 /* ---------- marquee */
-.marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--paper); padding: 18px 0; position: relative; z-index: 1; }
+.marquee { overflow: hidden; border-block: 1px solid var(--line); background: var(--paper); padding: 20px 0; position: relative; z-index: 1; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .marquee-track { display: flex; gap: 42px; width: max-content; animation: mq 60s linear infinite; }
-.marquee span { font: italic 500 1.35rem var(--serif); display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; }
+.marquee span { font: italic 500 1.35rem/1.5 var(--serif); display: inline-flex; align-items: center; gap: 14px; white-space: nowrap; padding-block: 2px; }
 .marquee i { width: 14px; height: 14px; border-radius: 50%; }
 @keyframes mq { to { transform: translateX(-50%); } }
 
@@ -253,7 +253,7 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 
 /* ---------- história (banda chocolate que escorre) */
 .story { padding: 0; }
-.story-band { background: var(--choc); color: #f6eadb; padding: clamp(90px, 10vw, 140px) 0 40px; position: relative; }
+.story-band { background: var(--choc); color: #f6eadb; padding: 96px 0 32px; position: relative; }
 .story-band::before { content: ''; position: absolute; inset: 0; background: radial-gradient(800px 400px at 15% 20%, rgba(226, 58, 85, .25), transparent 60%), radial-gradient(600px 400px at 90% 80%, rgba(201, 154, 63, .18), transparent 60%); pointer-events: none; }
 .story-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: center; position: relative; }
 .story-seal img { width: 100%; max-width: 380px; margin: auto; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .45)); animation: floaty 7s ease-in-out infinite; }
@@ -310,7 +310,7 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 
 /* ---------- footer */
 .site-footer { position: relative; z-index: 1; background: var(--paper); border-top: 1px solid var(--line); padding: 70px 0 30px; }
-.foot { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.foot { display: grid; grid-template-columns: 1.6fr 1fr 1.2fr; gap: 40px; }
 .foot-brand img { width: 130px; margin-bottom: 18px; }
 .foot-brand p { color: var(--ink-2); max-width: 22em; }
 .foot h4 { font: 700 .76rem var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--rasp); margin-bottom: 16px; }
@@ -566,3 +566,51 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .hero-copy .display { font-size: clamp(2.6rem, 11vw, 3.6rem); }
 }
 @media (max-width: 400px) { .brand span { display: none; } }
+
+/* ---------- correções v1 */
+.story { padding-block: 0; }
+.drip { height: 70px; }
+.story + .section { padding-top: 64px; }
+.sec-head { margin-bottom: 40px; }
+.sec-head.sub { margin-top: 72px; }
+.sub-h { font-size: clamp(1.8rem, 3vw, 2.4rem); margin: 0; }
+.diff { margin-top: 56px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; background: var(--paper); border-radius: var(--r); padding: 40px 44px; box-shadow: var(--shadow); border: 1px solid var(--line); position: relative; overflow: hidden; }
+.diff::before { content: ''; position: absolute; width: 340px; height: 340px; right: -80px; top: -120px; border-radius: 50%; background: radial-gradient(circle, rgba(226, 58, 85, .14), transparent 70%); }
+.diff h3 { font-size: clamp(1.7rem, 2.6vw, 2.3rem); }
+.diff-copy p:last-child { color: var(--ink-2); margin: 0; }
+.diff-math { display: flex; align-items: center; justify-content: center; gap: 22px; position: relative; }
+.diff-math span { display: grid; justify-items: center; text-align: center; }
+.diff-math b { font: 600 3.4rem/1 var(--serif); color: var(--ink-2); }
+.diff-math .big b { font-size: 6rem; color: var(--rasp); }
+.diff-math small { font-size: .8rem; color: var(--ink-2); max-width: 11em; margin-top: 6px; }
+.diff-math i { font-style: normal; font-size: 2rem; color: var(--gold); }
+.freebar { background: var(--cream); border-radius: 16px; padding: 14px 16px; margin-bottom: 6px; }
+.freebar p { margin: 0 0 8px; font-size: .9rem; }
+.freebar .progress { margin: 0; height: 6px; }
+.teaser-box { padding: 20px; }
+#toast { left: auto; right: 24px; bottom: 24px; transform: translateY(160%); pointer-events: none; }
+#toast.show { transform: translateY(0); pointer-events: auto; }
+.b-stage { height: clamp(380px, 54vh, 540px); margin: -24px -40px 0; }
+.b-name { margin-top: -12px; }
+.builder .page-head { margin-bottom: 8px; padding-top: 16px; }
+.builder .page-head .display-2 { font-size: clamp(2.4rem, 4.4vw, 3.6rem); }
+@media (max-width: 900px) {
+  .section { padding-block: 64px; }
+  .story-band { padding-top: 64px; }
+  .story + .section { padding-top: 48px; }
+  .sec-head.sub { margin-top: 48px; }
+  .diff { grid-template-columns: 1fr; padding: 28px 24px; margin-top: 40px; }
+  .diff-math .big b { font-size: 4.4rem; }
+  .b-stage { height: 360px; margin: -10px 0 0; }
+  #toast { right: 50%; transform: translate(50%, 160%); bottom: 16px; }
+  #toast.show { transform: translate(50%, 0); }
+}
+/* montador: 3D + nome + botões sempre visíveis na primeira tela */
+.builder .page-head { padding-top: 4px; margin-bottom: 0; }
+.builder .page-head .eyebrow { margin-bottom: 8px; }
+.builder .page-head .display-2 { font-size: clamp(2.2rem, 3.6vw, 3rem); margin-bottom: 4px; }
+.builder .page-head .lead { font-size: 1rem; margin-bottom: 0; }
+.b-stage { height: clamp(300px, calc(100vh - 400px), 520px); margin-top: -8px; }
+.b-name { margin: -6px 0 12px; font-size: clamp(1.3rem, 2vw, 1.8rem); }
+.b-col { padding: 20px; }
+@media (max-width: 900px) { .b-stage { height: min(360px, 52vh); } }

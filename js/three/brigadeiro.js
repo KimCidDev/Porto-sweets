@@ -524,8 +524,10 @@ function galaxyFor(crust) {
 }
 
 class Galaxy extends THREE.Group {
-  constructor(set, count = 90, spread = 1, size = 1) {
+  constructor(set, count = 90, spread = 1, size = 1, opt = {}) {
     super();
+    const { rMin = 1.6, rMax = 3.6, zScale = 0.8, zShift = -0.4, leftScale = 1, yMin = -0.9, yMax = 1.5 } = opt;
+    this.opt = { zScale, zShift, leftScale };
     this.items = [];
     this.meshes = [];
     const per = Math.max(6, Math.round(count / set.length));
@@ -535,7 +537,7 @@ class Galaxy extends THREE.Group {
       for (let i = 0; i < per; i++) {
         const big = /crystal|grain|nonpareil|crumb/.test(geo) ? rand(1.8, 2.8) : /pearl/.test(geo) ? rand(0.8, 1.3) : rand(1.1, 1.8);
         this.items.push({
-          mesh, i, r: rand(1.6, 3.6) * spread, a: rand(0, TAU), y: rand(-0.9, 1.5) * spread,
+          mesh, i, r: rand(rMin, rMax) * spread, a: rand(0, TAU), y: rand(yMin, yMax) * spread,
           sp: rand(0.05, 0.22) * (Math.random() > 0.2 ? 1 : -1), bob: rand(0, TAU), s: big * size,
           rot: new THREE.Euler(rand(0, TAU), rand(0, TAU), rand(0, TAU)), rs: new THREE.Vector3(rand(-1, 1), rand(-1, 1), rand(-1, 1)),
         });
@@ -550,7 +552,8 @@ class Galaxy extends THREE.Group {
     for (const it of this.items) {
       it.a += it.sp * dt;
       it.rot.x += it.rs.x * dt * 0.6; it.rot.y += it.rs.y * dt * 0.6; it.rot.z += it.rs.z * dt * 0.6;
-      _p.set(Math.cos(it.a) * it.r, it.y + Math.sin(t * 0.6 + it.bob) * 0.12, Math.sin(it.a) * it.r * 0.8 - 0.4);
+      const cx = Math.cos(it.a) * it.r;
+      _p.set(cx < 0 ? cx * this.opt.leftScale : cx, it.y + Math.sin(t * 0.6 + it.bob) * 0.12, Math.sin(it.a) * it.r * this.opt.zScale + this.opt.zShift);
       _q.setFromEuler(it.rot);
       _s.setScalar(it.s * this.fade);
       _m.compose(_p, _q, _s);
@@ -609,8 +612,9 @@ export function webglAvailable() {
 }
 
 export class Stage {
-  constructor(canvas, { fudge, crust, cup = 'framboesa', galaxy = 'mix', interactive = true, offsetX = 0, camDist = 5.4, quality = 1, scrollSpin = false, galaxySize = 1, galaxyCount = 110 } = {}) {
+  constructor(canvas, { fudge, crust, cup = 'framboesa', galaxy = 'mix', interactive = true, offsetX = 0, camDist = 5.4, quality = 1, scrollSpin = false, galaxySize = 1, galaxyCount = 110, galaxyOpt = {} } = {}) {
     this.galaxySize = galaxySize;
+    this.galaxyOpt = galaxyOpt;
     this.canvas = canvas;
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
@@ -666,7 +670,7 @@ export class Stage {
       if (old) { if (window.gsap) window.gsap.to(old, { fade: 0, duration: 0.6, onComplete: () => { this.root.remove(old); old.dispose(); } }); else { this.root.remove(old); old.dispose(); } }
       return;
     }
-    const g = new Galaxy(set, count, 1, this.galaxySize);
+    const g = new Galaxy(set, count, 1, this.galaxySize, this.galaxyOpt);
     this.galaxy = g;
     this.root.add(g);
     if (window.gsap) {
@@ -712,7 +716,8 @@ export class Stage {
     const w = Math.max(1, p.clientWidth), h = Math.max(1, p.clientHeight);
     this.renderer.setSize(w, h, false);
     this.camera.aspect = w / h;
-    const d = this.camDist * (w / h < 0.8 ? 1.25 : 1);
+    const aspect = w / h;
+    const d = this.camDist * (aspect < 1 ? Math.min(1.6, 1 / aspect) : 1);
     this.camera.position.set(0, d * 0.2, d);
     this.camera.lookAt(0, -0.05, 0);
     this.camera.setViewOffset(w, h, -this.offsetX * w, 0, w, h);
@@ -739,7 +744,7 @@ export class Stage {
     this.shadow.scale.setScalar(1 - lift * 1.2);
     this.shadow.material.opacity = 0.3 - lift * 0.6;
     if (this.galaxy) {
-      this.galaxy.rotation.y = this.pointer.x * 0.15;
+      if (!this.galaxyOpt.still) this.galaxy.rotation.y = this.pointer.x * 0.15;
       this.galaxy.update(t, dt);
     }
     this.renderer.render(this.scene, this.camera);

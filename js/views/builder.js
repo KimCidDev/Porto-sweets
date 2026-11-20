@@ -104,12 +104,9 @@ export function mount(root) {
   if (GL) stage = new Stage(root.querySelector('.b-stage .stage'), { fudge: fudgeById(builder.fudge), crust: crustById(builder.crust), galaxy: 'crust', galaxySize: 0.6, camDist: 7.4, quality: window.innerWidth > 900 ? 1 : 0.6 });
   let qty = 1;
 
-  const updateCombo = (animate = true) => {
-    const f = fudgeById(builder.fudge), c = crustById(builder.crust);
-    saveBuilder();
-    if (stage) stage.setCombo(f, c, animate);
-    else { const fb = root.querySelector('#bFallback'); if (fb) fb.innerHTML = thumbHTML(f.id, c.id, 'xl'); }
-    // dropdowns + chips
+  // atualiza TODA a interface (título, legenda, dropdowns, bolinhas) de uma vez — sem descompasso
+  const syncUI = (fid, cid, { light = false, animate = true } = {}) => {
+    const f = fudgeById(fid), c = crustById(cid);
     [['fudge', f], ['crust', c]].forEach(([k, it]) => {
       const box = root.querySelector(`[data-dd="${k}"]`);
       box.querySelector('.dd-label').textContent = L(it.name);
@@ -121,11 +118,19 @@ export function mount(root) {
     root.querySelector('#cDesc').textContent = L(c.desc);
     root.querySelector('#bName').innerHTML = comboName(f.id, c.id);
     root.querySelector('#addName').innerHTML = comboName(f.id, c.id);
+    root.querySelector('#fav').classList.toggle('on', account.isFav(f.id, c.id));
+    if (light) return;
     const ac = root.querySelector('.add-combo');
     ac.querySelector('.thumb').outerHTML = thumbHTML(f.id, c.id, 'mini');
     hydrate(ac);
-    root.querySelector('#fav').classList.toggle('on', account.isFav(f.id, c.id));
     if (g && animate) g.fromTo('#bName', { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: 'back.out(2)' });
+  };
+  const updateCombo = (animate = true) => {
+    saveBuilder();
+    const f = fudgeById(builder.fudge), c = crustById(builder.crust);
+    if (stage) stage.setCombo(f, c, animate);
+    else { const fb = root.querySelector('#bFallback'); if (fb) fb.innerHTML = thumbHTML(f.id, c.id, 'xl'); }
+    syncUI(f.id, c.id, { animate });
   };
 
   const renderBox = () => {
@@ -189,11 +194,10 @@ export function mount(root) {
   root.querySelector('#surprise').addEventListener('click', (e) => {
     if (spinning) return;
     spinning = true;
-    const nameEl = root.querySelector('#bName');
     let i = 0;
     const spin = setInterval(() => {
       const r = randomCombo();
-      nameEl.innerHTML = comboName(r.fudge, r.crust);
+      syncUI(r.fudge, r.crust, { light: true });
       if (++i > 9) {
         clearInterval(spin);
         let n;

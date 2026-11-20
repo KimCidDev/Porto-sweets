@@ -1,5 +1,5 @@
 import { t, L, money, fmtDate } from '../i18n.js';
-import { productById, boxById, PICKUP_ADDRESS, DELIVERY_FEE } from '../data.js';
+import { productById, boxById, DELIVERY_FEE, FREE_SHIPPING } from '../data.js';
 import { ICON, esc, thumbHTML, hydrate, comboName, giftbox, toast } from '../ui.js';
 import { cart, account } from '../store.js';
 import { confetti, splash } from '../paint.js';
@@ -7,7 +7,14 @@ import { confetti, splash } from '../paint.js';
 const itemTitle = (it) => (it.kind === 'product' ? L(productById(it.productId)?.name) : t('cart.custom'));
 
 // ---------------------------------------------------------------- carrinho
+function freeBar() {
+  const left = cart.toFree();
+  const pct = Math.min(100, (cart.subtotal() / FREE_SHIPPING) * 100);
+  return `<div class="freebar"><p>${left > 0 ? t('cart.toFree', { n: `<b>${money(left)}</b>` }) : `<b class="ok">${t('cart.freeOk')}</b>`}</p><div class="progress"><span style="width:${pct}%"></span></div></div>`;
+}
+
 export function renderCart() {
+  const est = cart.totals('delivery');
   if (!cart.items.length) {
     return `<section class="cart wrap page-pad"><header class="page-head"><h1 class="display-2">${t('cart.title')}</h1></header>
       <div class="empty-state card">${thumbHTML('morango', 'perolas', 'big')}<p>${t('cart.empty')}</p><a class="btn btn-primary" href="#/montador">${ICON.dice} ${t('cart.emptyCta')}</a><a class="btn-text" href="#/loja">${t('nav.shop')} →</a></div></section>`;
@@ -34,7 +41,11 @@ export function renderCart() {
       }).join('')}</ul>
       <aside class="summary card">
         <h2>${t('co.summary')}</h2>
-        <div class="sum-row"><span>${t('cart.subtotal')}</span><b>${money(cart.subtotal())}</b></div>
+        ${freeBar()}
+        <div class="sum-row"><span>${t('cart.subtotal')}</span><b>${money(est.sub)}</b></div>
+        <div class="sum-row"><span>${t('co.ship')}</span><b>${est.ship ? money(est.ship) : t('co.free')}</b></div>
+        <div class="sum-row"><span>${t('co.gst')}</span><b>${money(est.gst)}</b></div>
+        <div class="sum-row total"><span>${t('cart.estTotal')}</span><b>${money(est.total)}</b></div>
         <p class="muted small">${t('cart.shipNote')}</p>
         <a class="btn btn-primary btn-wide" href="#/checkout">${ICON.lock} ${t('cart.checkout')}</a>
         <a class="btn-text" href="#/loja">${t('cart.continue')}</a>
@@ -69,6 +80,7 @@ function summary() {
     <ul class="sum-items">${cart.items.map((it) => `<li><span>${it.qty} × ${esc(itemTitle(it))} <small>(${boxById(it.boxId).size})</small></span><b>${money(cart.linePrice(it))}</b></li>`).join('')}</ul>
     <div class="sum-row"><span>${t('cart.subtotal')}</span><b>${money(tt.sub)}</b></div>
     <div class="sum-row"><span>${t('co.ship')}</span><b>${tt.ship ? money(tt.ship) : t('co.free')}</b></div>
+    ${co.method === 'delivery' ? freeBar() : ''}
     <div class="sum-row"><span>${t('co.gst')}</span><b>${money(tt.gst)}</b></div>
     <div class="sum-row total"><span>${t('co.total')}</span><b>${money(tt.total)}</b></div>
   </aside>`;
@@ -88,8 +100,8 @@ function stepBody() {
   if (co.step === 2) {
     return `<div class="co-step">
       <div class="methods">
-        <label class="method ${co.method === 'pickup' ? 'on' : ''}"><input type="radio" name="method" value="pickup" ${co.method === 'pickup' ? 'checked' : ''}>${ICON.pin}<span><b>${t('co.pickup')}</b><small>${t('co.pickupX')} · ${esc(PICKUP_ADDRESS)}</small></span></label>
-        <label class="method ${co.method === 'delivery' ? 'on' : ''}"><input type="radio" name="method" value="delivery" ${co.method === 'delivery' ? 'checked' : ''}>${ICON.truck}<span><b>${t('co.delivery')}</b><small>+${money(DELIVERY_FEE)} · ${t('co.deliveryX')}</small></span></label>
+        <label class="method ${co.method === 'pickup' ? 'on' : ''}"><input type="radio" name="method" value="pickup" ${co.method === 'pickup' ? 'checked' : ''}>${ICON.pin}<span><b>${t('co.pickup')}</b><small>${t('co.pickupX')}</small></span></label>
+        <label class="method ${co.method === 'delivery' ? 'on' : ''}"><input type="radio" name="method" value="delivery" ${co.method === 'delivery' ? 'checked' : ''}>${ICON.truck}<span><b>${t('co.delivery')}</b><small>${cart.shipping('delivery') ? '+' + money(DELIVERY_FEE) : t('co.free')} · ${t('co.deliveryX', { free: money(FREE_SHIPPING) })}</small></span></label>
       </div>
       ${co.method === 'delivery' ? `<div class="two">${field('address', t('co.address'), 'text', 'autocomplete="street-address"')}${field('postal', t('co.postal'), 'text', 'autocomplete="postal-code" maxlength="7"')}</div>` : ''}
       <div class="two">${field('date', t('co.date'), 'date', `min="${minDate()}"`)}
@@ -181,7 +193,7 @@ export function mountCheckout(root, params, rerender) {
     setTimeout(() => {
       const tt = cart.totals(co.method);
       const id = 'PS-' + String(Math.floor(1000 + Math.random() * 9000));
-      const order = { id, at: new Date().toISOString(), items: cart.items.map((i) => ({ ...i })), method: co.method, date: co.date, time: co.time, address: co.method === 'delivery' ? `${co.address}, ${co.postal.toUpperCase()}` : PICKUP_ADDRESS, name: co.name, email: co.email, phone: co.phone, notes: co.notes, totals: tt, card: num.slice(-4) };
+      const order = { id, at: new Date().toISOString(), items: cart.items.map((i) => ({ ...i })), method: co.method, date: co.date, time: co.time, address: co.method === 'delivery' ? `${co.address}, ${co.postal.toUpperCase()}` : '', name: co.name, email: co.email, phone: co.phone, notes: co.notes, totals: tt, card: num.slice(-4) };
       if (!account.data.user) account.login(co.name, co.email);
       account.addOrder(order);
       cart.clear();

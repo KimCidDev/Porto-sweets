@@ -1,5 +1,5 @@
 // Carrinho e conta — guardados no navegador (v1 simulada, sem servidor).
-import { boxById, DELIVERY_FEE, GST } from './data.js';
+import { boxById, DELIVERY_FEE, FREE_SHIPPING, GST } from './data.js';
 
 const load = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v ?? d; } catch (e) { return d; } };
 const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* storage indisponível */ } };
@@ -17,9 +17,12 @@ export const cart = {
   count() { return this.items.reduce((s, i) => s + i.qty, 0); },
   linePrice(i) { return boxById(i.boxId).price * i.qty; },
   subtotal() { return this.items.reduce((s, i) => s + this.linePrice(i), 0); },
-  totals(method) {
+  // mesma regra no carrinho e no checkout: entrega CA$15, grátis a partir de CA$300; retirada grátis
+  shipping(method = 'delivery') { return method === 'delivery' && this.subtotal() < FREE_SHIPPING ? DELIVERY_FEE : 0; },
+  toFree() { return Math.max(0, FREE_SHIPPING - this.subtotal()); },
+  totals(method = 'delivery') {
     const sub = this.subtotal();
-    const ship = method === 'delivery' ? DELIVERY_FEE : 0;
+    const ship = this.shipping(method);
     const gst = Math.round((sub + ship) * GST * 100) / 100;
     return { sub, ship, gst, total: Math.round((sub + ship + gst) * 100) / 100 };
   },

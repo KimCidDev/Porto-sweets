@@ -16,7 +16,7 @@ export const FUDGES = [
     name: { pt: 'Erva-Mate', en: 'Yerba Mate' },
     desc: { pt: 'O chimarrão virou doce: herbal, levemente amargo, muito gaúcho.', en: 'Chimarrão turned into candy: herbal, gently bitter, very southern Brazil.' } },
   { id: 'bergamota', color: '#ee9e48', rough: 0.52, coat: 0.15, tags: ['frutado'],
-    name: { pt: 'Bergamota', en: 'Tangerine' },
+    name: { pt: 'Bergamota', en: 'Mandarin' },
     desc: { pt: 'O cítrico do Sul do Brasil: perfumado, doce e solar.', en: 'The citrus of southern Brazil: fragrant, sweet and sunny.' } },
   { id: 'cha-limao', color: '#e9d898', rough: 0.55, coat: 0.12, tags: ['frutado'],
     name: { pt: 'Chá de Limão', en: 'Lemon Tea' },
@@ -97,7 +97,8 @@ export const BOXES = [
 
 export const DELIVERY_FEE = 15;
 export const GST = 0.05;
-export const PICKUP_ADDRESS = '129 Westminster Drive SW, Calgary, AB T3C 2T2';
+// Sem endereço público até haver um ponto de retirada real (o local vai na confirmação).
+export const FREE_SHIPPING = 300; // frete grátis a partir deste subtotal (CAD)
 
 // Caixas curadas (produtos da loja)
 export const PRODUCTS = [
@@ -125,7 +126,7 @@ export const PRODUCTS = [
     mix: [['bergamota', 'limao'], ['cha-limao', 'limao'], ['maracuja', 'coco-tostado']],
     name: { pt: 'Cítricos do Sul', en: 'Southern Citrus' },
     tagline: { pt: 'Fresco, solar, perfumado.', en: 'Fresh, sunny, fragrant.' },
-    desc: { pt: 'Bergamota e chá de limão com raspas de limão, e maracujá com coco tostado. Leve como tarde de verão.', en: 'Tangerine and lemon tea with lemon zest, plus passion fruit with toasted coconut. Light as a summer afternoon.' } },
+    desc: { pt: 'Bergamota e chá de limão com raspas de limão, e maracujá com coco tostado. Leve como tarde de verão.', en: 'Mandarin and lemon tea with lemon zest, plus passion fruit with toasted coconut. Light as a summer afternoon.' } },
   { id: 'especiarias', box: 'b24', badge: null, tags: ['especiarias'],
     mix: [['erva-mate', 'canela'], ['chocolate', 'noz-moscada'], ['branquinho', 'canela']],
     name: { pt: 'Erva & Especiarias', en: 'Mate & Spice' },
@@ -140,7 +141,7 @@ export const PRODUCTS = [
     mix: [['maracuja', 'coco-ralado'], ['coco', 'coco-tostado'], ['bergamota', 'acucar-rosa']],
     name: { pt: 'Tropical', en: 'Tropical' },
     tagline: { pt: 'Um pedaço do Brasil no inverno canadense.', en: 'A slice of Brazil in a Canadian winter.' },
-    desc: { pt: 'Maracujá com coco ralado, coco com coco tostado e bergamota com açúcar cristal rosa.', en: 'Passion fruit with shredded coconut, coconut with toasted coconut and tangerine with pink crystal sugar.' } },
+    desc: { pt: 'Maracujá com coco ralado, coco com coco tostado e bergamota com açúcar cristal rosa.', en: 'Passion fruit with shredded coconut, coconut with toasted coconut and mandarin with pink crystal sugar.' } },
 ];
 
 export const TESTIMONIALS = [

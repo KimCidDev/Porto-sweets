@@ -1,7 +1,7 @@
 // Porto Sweets — app (rotas, cabeçalho, rodapé, animações gerais)
 import { t, lang, setLang, onLang, money } from './i18n.js';
-import { PICKUP_ADDRESS } from './data.js';
-import { ICON } from './ui.js';
+import { FREE_SHIPPING } from './data.js';
+import { ICON, hideToast } from './ui.js';
 import { cart, bus } from './store.js';
 import { initPaint } from './paint.js';
 import * as home from './views/home.js';
@@ -42,8 +42,9 @@ function reveal(root) {
   if (!g || !window.ScrollTrigger) return;
   const els = root.querySelectorAll('[data-reveal]');
   if (!els.length) return;
-  g.set(els, { y: 50, opacity: 0 });
-  window.ScrollTrigger.batch(els, { start: 'top 90%', once: true, onEnter: (b) => g.to(b, { y: 0, opacity: 1, duration: 0.9, stagger: 0.09, ease: 'power3.out', overwrite: true }) });
+  // entrada curta e cedo (assim que a borda aparece): o espaço nunca fica vazio ao rolar
+  g.set(els, { y: 24, opacity: 0 });
+  window.ScrollTrigger.batch(els, { start: 'top bottom', once: true, onEnter: (b) => g.to(b, { y: 0, opacity: 1, duration: 0.55, stagger: 0.06, ease: 'power2.out', overwrite: true }) });
   root.querySelectorAll('.blob').forEach((b) => {
     g.fromTo(b, { scale: 0.6, rotate: -20 }, { scale: 1, rotate: 0, ease: 'none', scrollTrigger: { trigger: b.parentElement, start: 'top bottom', end: 'bottom top', scrub: 1 } });
   });
@@ -54,6 +55,7 @@ function show(animate = true) {
   const same = current === location.hash;
   current = location.hash;
   if (cleanup) { try { cleanup(); } catch (e) { console.warn(e); } cleanup = null; }
+  hideToast();
   killTriggers();
   const rerender = () => show(false);
   app.innerHTML = r.render(params);
@@ -101,10 +103,8 @@ function renderFooter() {
   footer.innerHTML = `<div class="wrap foot">
     <div class="foot-brand"><img src="assets/logo-selo.svg" alt="Porto Sweets"><p>${t('foot.tag')}</p></div>
     <div><h4>${t('foot.nav')}</h4><a href="#/montador">${t('nav.builder')}</a><a href="#/loja">${t('nav.shop')}</a><button type="button" data-goto="historia">${t('nav.story')}</button><a href="#/conta">${t('nav.account')}</a></div>
-    <div><h4>${t('foot.visit')}</h4><p>${PICKUP_ADDRESS.replace(', Calgary', '<br>Calgary')}</p></div>
-    <div><h4>${t('foot.follow')}</h4><div class="socials">
-      <a href="#" aria-label="Instagram" data-soon>${ICON.instagram}</a><a href="#" aria-label="TikTok" data-soon>${ICON.tiktok}</a><a href="#" aria-label="Facebook" data-soon>${ICON.facebook}</a><a href="#" aria-label="WhatsApp" data-soon>${ICON.whatsapp}</a></div>
-      <p class="muted small">${t('foot.soon')}</p></div>
+    <div><h4>${t('foot.visit')}</h4><p>${t('foot.visitText', { free: money(FREE_SHIPPING) })}</p></div>
+    <!-- Redes sociais: os ícones (ICON.instagram/tiktok/facebook/whatsapp em ui.js) voltam quando os perfis existirem -->
   </div>
   <div class="wrap foot-bottom"><span>© ${new Date().getFullYear()} Porto Sweets · ${t('foot.demo')}</span><span>${t('foot.by')} <a href="https://femik.ca" target="_blank" rel="noopener">Femik</a></span></div>`;
 }
@@ -129,7 +129,6 @@ document.addEventListener('click', (e) => {
     else { sessionStorage.setItem('ps_goto', g.dataset.goto); location.hash = '#/'; }
     return;
   }
-  if (e.target.closest('[data-soon]')) { e.preventDefault(); return; }
   const b = e.target.closest('.burger');
   if (b) { const open = document.body.classList.toggle('menu-open'); b.setAttribute('aria-expanded', String(open)); }
 });

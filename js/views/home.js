@@ -1,12 +1,12 @@
 import { t, L, money } from '../i18n.js';
-import { FUDGES, CRUSTS, PRODUCTS, BOXES, TESTIMONIALS, PICKUP_ADDRESS, DELIVERY_FEE, fudgeById, crustById, randomCombo } from '../data.js';
+import { FUDGES, CRUSTS, PRODUCTS, BOXES, TESTIMONIALS, DELIVERY_FEE, FREE_SHIPPING, fudgeById, crustById, randomCombo } from '../data.js';
 import { ICON, GL, esc, thumbHTML, productCard, giftbox, blobSVG, crustSwatch, hydrate } from '../ui.js';
 import { Stage } from '../three/brigadeiro.js';
 
 const TEASER_BOX = [['chocolate', 'granulado'], ['morango', 'acucar-rosa'], ['pistache', 'pistache'], ['coco', 'coco-tostado'], ['branquinho', 'colorido'], ['choc-pimenta', 'lascas'], ['maracuja', 'coco-ralado'], ['morango', 'perolas'], ['erva-mate', 'canela']];
 
 export function render() {
-  const featured = PRODUCTS.slice(0, 4);
+  const featured = PRODUCTS.slice(0, 4); // caixas da casa (dentro de "Caixas prontas")
   const marquee = [...FUDGES.map((f) => [L(f.name), f.color]), ...CRUSTS.filter((c) => c.kind !== 'none').map((c) => [L(c.name), c.swatch[0]])];
   const mq = marquee.map(([n, c]) => `<span><i style="background:${c}"></i>${esc(n)}</span>`).join('');
   return `
@@ -42,6 +42,10 @@ export function render() {
           <span class="step-n">${i}</span>
           <h3>${t('what.s' + i)}</h3><p>${t('what.s' + i + 't')}</p></article>`).join('')}
       </div>
+      <div class="diff" data-reveal>
+        <div class="diff-copy"><p class="eyebrow">${t('what.diffEy')}</p><h3>${t('what.diffT')}</h3><p>${t('what.diffX')}</p></div>
+        <div class="diff-math"><span><b>4–5</b><small>${t('what.diffTrad')}</small></span><i>→</i><span class="big"><b>160</b><small>${t('what.diffOurs')}</small></span></div>
+      </div>
     </div>
   </section>
 
@@ -61,31 +65,6 @@ export function render() {
     </div>
   </section>
 
-  <section class="section featured">
-    <div class="wrap">
-      <div class="sec-head row" data-reveal><div><p class="eyebrow">${t('feat.eyebrow')}</p><h2>${t('feat.title')}</h2></div>
-        <a class="link-arrow" href="#/loja">${t('feat.all')} ${ICON.arrow}</a></div>
-      <div class="pgrid">${featured.map(productCard).join('')}</div>
-    </div>
-  </section>
-
-  <section class="section story" id="historia">
-    <div class="story-band">
-      <div class="wrap story-grid">
-        <div class="story-seal" data-reveal><img src="assets/logo-selo.svg" alt="Porto Sweets"></div>
-        <div class="story-copy" data-reveal>
-          <p class="eyebrow">${t('story.eyebrow')}</p>
-          <h2>${t('story.title')}</h2>
-          <p>${t('story.p1')}</p>
-          <p>${t('story.p2')}</p>
-          <p class="story-quote">${t('story.p3')}</p>
-          <p class="story-sign">— ${t('story.sign')}</p>
-        </div>
-      </div>
-    </div>
-    <svg class="drip" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V38 C1400,38 1392,70 1372,96 C1360,112 1340,108 1338,90 C1335,62 1318,44 1270,42 C1210,40 1190,46 1170,62 C1155,74 1150,104 1128,104 C1108,104 1108,74 1092,56 C1070,36 1010,42 940,44 C880,46 868,52 860,70 C852,88 846,118 822,118 C800,118 800,86 790,66 C778,44 740,40 660,42 C600,44 584,48 572,62 C562,74 560,92 544,92 C528,92 528,74 516,60 C500,44 460,40 400,40 C330,40 300,46 290,66 C282,82 280,112 256,112 C232,112 234,80 224,62 C212,40 170,38 120,40 C70,42 56,48 48,64 C40,80 36,98 22,98 C8,98 8,70 0,60 Z"/></svg>
-  </section>
-
   <section class="section boxes" id="caixas">
     <div class="wrap">
       <div class="sec-head" data-reveal><p class="eyebrow">${t('boxes.eyebrow')}</p><h2>${t('boxes.title')}</h2></div>
@@ -99,9 +78,12 @@ export function render() {
           <a class="btn btn-small" href="#/montador?box=${b.id}">${t('boxes.cta')}</a>
         </article>`).join('')}
       </div>
+      <div class="sec-head row sub" data-reveal><div><p class="eyebrow">${t('feat.eyebrow')}</p><h3 class="sub-h">${t('feat.title')}</h3></div>
+        <a class="link-arrow" href="#/loja">${t('feat.all')} ${ICON.arrow}</a></div>
+      <div class="pgrid">${featured.map(productCard).join('')}</div>
       <div class="deliv" data-reveal>
-        <div>${ICON.pin}<span><b>${t('deliv.pickup')}</b> · ${esc(PICKUP_ADDRESS)}</span></div>
-        <div>${ICON.truck}<span><b>${t('deliv.delivery')}</b> ${t('deliv.deliveryText', { fee: money(DELIVERY_FEE) })}</span></div>
+        <div>${ICON.truck}<span><b>${t('deliv.delivery')}</b> · ${t('deliv.deliveryText', { fee: money(DELIVERY_FEE), free: money(FREE_SHIPPING) })}</span></div>
+        <div>${ICON.pin}<span><b>${t('deliv.pickup')}</b> · ${t('deliv.pickupText')}</span></div>
         <div>${ICON.clock}<span>${t('deliv.ahead')}</span></div>
       </div>
     </div>
@@ -120,6 +102,23 @@ export function render() {
         <p class="lead">${t('pack.text')}</p>
       </div>
     </div>
+  </section>
+
+  <section class="section story" id="historia">
+    <div class="story-band">
+      <div class="wrap story-grid">
+        <div class="story-seal" data-reveal><img src="assets/logo-selo.svg" alt="Porto Sweets"></div>
+        <div class="story-copy" data-reveal>
+          <p class="eyebrow">${t('story.eyebrow')}</p>
+          <h2>${t('story.title')}</h2>
+          <p>${t('story.p1')}</p>
+          <p>${t('story.p2')}</p>
+          <p class="story-quote">${t('story.p3')}</p>
+          <p class="story-sign">— ${t('story.sign')}</p>
+        </div>
+      </div>
+    </div>
+    <svg class="drip" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0,0 H1440 V38 C1400,38 1392,70 1372,96 C1360,112 1340,108 1338,90 C1335,62 1318,44 1270,42 C1210,40 1190,46 1170,62 C1155,74 1150,104 1128,104 C1108,104 1108,74 1092,56 C1070,36 1010,42 940,44 C880,46 868,52 860,70 C852,88 846,118 822,118 C800,118 800,86 790,66 C778,44 740,40 660,42 C600,44 584,48 572,62 C562,74 560,92 544,92 C528,92 528,74 516,60 C500,44 460,40 400,40 C330,40 300,46 290,66 C282,82 280,112 256,112 C232,112 234,80 224,62 C212,40 170,38 120,40 C70,42 56,48 48,64 C40,80 36,98 22,98 C8,98 8,70 0,60 Z"/></svg>
   </section>
 
   <section class="section testi">
@@ -151,7 +150,7 @@ export function mount(root) {
     const canvas = root.querySelector('.hero .stage');
     const wide = () => window.innerWidth > 900;
     const start = { fudge: 'chocolate', crust: 'granulado' };
-    const stage = new Stage(canvas, { fudge: fudgeById(start.fudge), crust: crustById(start.crust), galaxy: 'mix', galaxySize: 0.75, galaxyCount: 80, offsetX: wide() ? 0.22 : 0, camDist: wide() ? 8.8 : 7.6, quality: wide() ? 1 : 0.6, scrollSpin: true });
+    const stage = new Stage(canvas, { fudge: fudgeById(start.fudge), crust: crustById(start.crust), galaxy: 'mix', galaxySize: 0.7, galaxyCount: 70, galaxyOpt: wide() ? { rMin: 1.7, rMax: 2.8, zScale: 0.5, zShift: -1.3, leftScale: 0.45, yMin: -1.1, yMax: 1.2, still: true } : { rMin: 1.6, rMax: 2.6, zScale: 0.5, zShift: -1.3, still: true }, offsetX: wide() ? 0.22 : 0, camDist: wide() ? 8.8 : 7.6, quality: wide() ? 1 : 0.6, scrollSpin: true });
     const onR = () => { stage.offsetX = wide() ? 0.2 : 0; stage.resize(); };
     window.addEventListener('resize', onR);
     const nameF = root.querySelector('#hfName'), nameC = root.querySelector('#hcName');

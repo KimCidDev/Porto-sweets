@@ -152,7 +152,12 @@ export function toast(msg) {
   box.innerHTML = `<div class="toast-in">${msg}</div>`;
   box.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => box.classList.remove('show'), 2600);
+  toastTimer = setTimeout(hideToast, 2200);
+}
+export function hideToast() {
+  clearTimeout(toastTimer);
+  const box = document.getElementById('toast');
+  if (box) box.classList.remove('show');
 }
 
 export function bumpCart() {

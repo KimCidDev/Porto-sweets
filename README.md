@@ -16,13 +16,13 @@ E-commerce + site institucional com **Montador 3D**: o cliente escolhe o recheio
 | Loja | `#/loja` | Caixas curadas com filtro por categoria |
 | Produto | `#/produto/<id>` | 3D das combinações da caixa, tamanho, quantidade, personalizar no Montador |
 | Carrinho | `#/carrinho` | Itens, quantidade, subtotal |
-| Checkout | `#/checkout` | Contato → retirada (grátis) ou entrega agendada (+$15, só Calgary) → pagamento estilo Stripe (simulado, cartão `4242 4242 4242 4242`) |
+| Checkout | `#/checkout` | Contato → retirada (grátis) ou entrega agendada (CA$15, grátis acima de CA$300, só Calgary) → pagamento estilo Stripe (simulado, cartão `4242 4242 4242 4242`) |
 | Pedido | `#/pedido/<id>` | Confirmação |
 | Conta | `#/conta` | Login simulado, histórico de pedidos, favoritos, dados |
 
 - **Idioma:** PT ou EN conforme o idioma do sistema do visitante (português → PT; resto → EN), com botão PT/EN.
 - **Preços (provisórios):** 9 un. $32 · 24 un. $78 · 50 un. $150 · 100 un. $280 (CAD) + GST 5%.
-- **Retirada:** 129 Westminster Drive SW, Calgary, AB T3C 2T2.
+- **Entrega:** CA$15 em Calgary, grátis a partir de CA$300. Retirada grátis (o local vai na confirmação; nenhum endereço público por enquanto).
 
 ## Como abrir
 
