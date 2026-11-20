@@ -673,3 +673,5 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 @media (min-width: 901px) {
   .marquee + .section.featured, .section.what, .section.teaser { padding-top: calc(var(--gap-sec) / 2 + 13px); }
 }
+/* logo inteiro dentro do disco da Nossa história */
+.story-logo img { width: 86%; transform: translateY(-1%); }
