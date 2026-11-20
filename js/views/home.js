@@ -37,7 +37,8 @@ export function render() {
     <div class="wrap">
       <div class="sec-head row" data-reveal><div><p class="eyebrow">${t('feat.eyebrow')}</p><h2>${t('feat.title')}</h2></div>
         <a class="link-arrow" href="#/loja">${t('feat.all')} ${ICON.arrow}</a></div>
-      <div class="pgrid">${featured.map(productCard).join('')}</div>
+      <div class="pgrid carousel" id="featCar">${featured.map(productCard).join('')}</div>
+      <div class="car-dots" id="featDots" aria-hidden="true">${featured.map((_, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
     </div>
   </section>
 
@@ -136,6 +137,18 @@ export function render() {
 export function mount(root) {
   const cleanups = [];
   hydrate(root);
+  // carrossel das caixas da casa (celular): bolinhas acompanham o swipe
+  const car = root.querySelector('#featCar'), dots = root.querySelectorAll('#featDots i');
+  if (car && dots.length) {
+    const onScroll = () => {
+      const cards = [...car.children];
+      const mid = car.scrollLeft + car.clientWidth / 2;
+      let best = 0, bd = Infinity;
+      cards.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = i; } });
+      dots.forEach((d, i) => d.classList.toggle('on', i === best));
+    };
+    car.addEventListener('scroll', onScroll, { passive: true });
+  }
   if (GL) {
     const canvas = root.querySelector('.hero .stage');
     const wide = () => window.innerWidth > 900;

@@ -731,3 +731,14 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .cta-row .btn { padding: 14px 20px; }
 }
 .hero-copy .lead, .hero-copy .display .line { text-wrap: balance; }
+/* caixas da casa: carrossel com swipe lateral no celular */
+.car-dots { display: none; }
+@media (max-width: 900px) {
+  .pgrid.carousel { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: -16px; padding: 6px 16px 18px; scroll-padding-inline: 16px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .pgrid.carousel::-webkit-scrollbar { display: none; }
+  .pgrid.carousel .pcard { flex: 0 0 80%; scroll-snap-align: start; }
+  .pgrid.carousel .pcard:hover { transform: none; }
+  .car-dots { display: flex; justify-content: center; gap: 8px; margin-top: 4px; }
+  .car-dots i { width: 8px; height: 8px; border-radius: 4px; background: var(--line); transition: width .3s, background .3s; }
+  .car-dots i.on { width: 22px; background: var(--rasp); }
+}
