@@ -13,6 +13,9 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+// raio da explosão de troca de crosta (menor em telas pequenas para não cortar nas bordas)
+let BURST = 1;
+export const setBurst = (k) => { BURST = k; };
 
 // ---------------------------------------------------------------- noise
 function hash3(x, y, z) {
@@ -326,7 +329,7 @@ class InstLayer {
       it.p.toArray(this.tp, i * 3); it.q.toArray(this.tq, i * 4); it.s.toArray(this.ts, i * 3);
       // ponto de partida: lá fora, na "galáxia"
       const d = it.p.clone().normalize();
-      const R = rand(2.6, 5.2);
+      const R = rand(2.6, 5.2) * BURST;
       _p.set(d.x * R, d.y * R + rand(-0.8, 1.6), d.z * R);
       _p.toArray(this.sp, i * 3);
       _q.setFromEuler(_e.set(rand(0, TAU), rand(0, TAU), rand(0, TAU))).toArray(this.sq, i * 4);

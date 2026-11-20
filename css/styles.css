@@ -702,3 +702,15 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .burger i { left: 9px; right: 9px; }
 }
 @media (max-width: 360px) { .brand span { display: none; } }
+
+/* topo no celular: brigadeiro primeiro (inteiro, logo abaixo do cabeçalho), texto depois */
+@media (max-width: 900px) {
+  .hero { --stage-h: min(46svh, 360px); padding: 64px 0 calc(var(--gap-sec) / 2); margin-top: -64px; display: flex; flex-direction: column; }
+  .hero-stage { order: -1; height: var(--stage-h); margin: 0; flex: none; }
+  .hero-tags { position: absolute; top: 64px; left: 0; right: 0; bottom: auto; height: var(--stage-h); }
+  .tf1 { top: 4%; left: 4%; } .tf2 { bottom: 8%; right: 4%; top: auto; }
+  .hero-tags .hint { bottom: -22px; }
+  .hero-copy { padding-top: 26px; }
+  .hero-copy .eyebrow { margin-bottom: 12px; }
+  .cta-row { margin: 24px 0 18px; }
+}

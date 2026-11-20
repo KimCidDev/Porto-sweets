@@ -1,7 +1,7 @@
 import { t, L, money } from '../i18n.js';
 import { FUDGES, CRUSTS, PRODUCTS, BOXES, TESTIMONIALS, DELIVERY_FEE, FREE_SHIPPING, fudgeById, crustById, randomCombo } from '../data.js';
 import { ICON, GL, esc, thumbHTML, productCard, giftbox, blobSVG, crustSwatch, hydrate } from '../ui.js';
-import { Stage } from '../three/brigadeiro.js';
+import { Stage, setBurst } from '../three/brigadeiro.js';
 
 const TEASER_BOX = [['chocolate', 'granulado'], ['morango', 'acucar-rosa'], ['pistache', 'pistache'], ['coco', 'coco-tostado'], ['branquinho', 'colorido'], ['choc-pimenta', 'lascas'], ['maracuja', 'coco-ralado'], ['morango', 'perolas'], ['erva-mate', 'canela']];
 
@@ -139,6 +139,7 @@ export function mount(root) {
   if (GL) {
     const canvas = root.querySelector('.hero .stage');
     const wide = () => window.innerWidth > 900;
+    setBurst(wide() ? 1 : 0.55);
     const start = { fudge: 'chocolate', crust: 'granulado' };
     const stage = new Stage(canvas, { fudge: fudgeById(start.fudge), crust: crustById(start.crust), galaxy: 'mix', galaxySize: 0.7, galaxyCount: 70, galaxyOpt: wide() ? { rMin: 1.7, rMax: 2.8, zScale: 0.5, zShift: -1.3, leftScale: 0.45, yMin: -1.1, yMax: 1.2, still: true } : { rMin: 1.6, rMax: 2.6, zScale: 0.5, zShift: -1.3, still: true }, offsetX: wide() ? 0.22 : 0, camDist: wide() ? 8.8 : 7.6, quality: wide() ? 1 : 0.6, scrollSpin: true });
     const onR = () => { stage.offsetX = wide() ? 0.2 : 0; stage.resize(); };
@@ -160,7 +161,7 @@ export function mount(root) {
       stage.setCombo(fudgeById(n.fudge), crustById(n.crust));
       label(n.fudge, n.crust);
     }, 6000); // troca de sabor a cada 6 s (0,7x a frequência anterior de 4,2 s)
-    cleanups.push(() => { clearInterval(iv); window.removeEventListener('resize', onR); stage.dispose(); });
+    cleanups.push(() => { setBurst(1); clearInterval(iv); window.removeEventListener('resize', onR); stage.dispose(); });
   }
   const g = window.gsap;
   if (g) {
