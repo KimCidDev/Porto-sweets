@@ -720,3 +720,14 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .hero-copy .display .line { white-space: nowrap; }
   .hero-copy .eyebrow { font-size: .7rem; letter-spacing: .12em; white-space: nowrap; }
 }
+/* celular: botão principal visível já na primeira tela */
+@media (max-width: 900px) {
+  .hero { --stage-h: min(40svh, 330px); }
+  .hero-tags .hint { display: none; }
+  .hero-copy { padding-top: 18px; }
+  .hero-copy .display { margin-bottom: 10px; }
+  .hero-copy .lead { margin-bottom: 0; }
+  .cta-row { margin: 18px 0 14px; gap: 10px; }
+  .cta-row .btn { padding: 14px 20px; }
+}
+.hero-copy .lead, .hero-copy .display .line { text-wrap: balance; }
