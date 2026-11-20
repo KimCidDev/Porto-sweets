@@ -691,3 +691,14 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 @media (max-width: 900px) {
   .site-header.scrolled, .menu-open .site-header { background: rgba(251, 248, 243, .97); }
 }
+/* cabeçalho celular: equilíbrio horizontal (logo + nome à esquerda, ações à direita, margens iguais) */
+@media (max-width: 900px) {
+  .hdr { gap: 10px; width: calc(100% - 32px); }
+  .brand { gap: 8px; min-width: 0; }
+  .brand span { display: inline; font-size: 1.05rem; white-space: nowrap; }
+  .hdr-actions { gap: 8px; }
+  .lang button { padding: 6px 9px; }
+  .burger { width: 40px; margin-right: -8px; }
+  .burger i { left: 9px; right: 9px; }
+}
+@media (max-width: 360px) { .brand span { display: none; } }
