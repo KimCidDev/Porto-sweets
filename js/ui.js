@@ -30,15 +30,18 @@ export const ICON = {
 
 export const fudgeName = (id) => L(fudgeById(id).name);
 export const crustName = (id) => L(crustById(id).name);
-export const comboName = (f, c) => `${fudgeName(f)} <span class="amp">&amp;</span> ${crustName(c)}`;
-export const comboText = (f, c) => `${fudgeName(f)} & ${crustName(c)}`;
+const noCrust = (c) => crustById(c).kind === 'none';
+export const comboName = (f, c) => (noCrust(c) ? `${fudgeName(f)}<span class="amp">,</span> ${crustName(c).toLowerCase()}` : `${fudgeName(f)} <span class="amp">&amp;</span> ${crustName(c)}`);
+export const comboText = (f, c) => (noCrust(c) ? `${fudgeName(f)}, ${crustName(c).toLowerCase()}` : `${fudgeName(f)} & ${crustName(c)}`);
 
 export function ballVars(f, c) {
   const fu = fudgeById(f), cr = crustById(c);
+  if (cr.kind === 'none') return `--fc:${fu.color};--c1:${fu.color};--c2:${fu.color};--c3:${fu.color}`;
   return `--fc:${fu.color};--c1:${cr.swatch[0]};--c2:${cr.swatch[1]};--c3:${cr.swatch[2] || cr.swatch[0]}`;
 }
 export function crustSwatch(c) {
   const cr = crustById(c);
+  if (cr.kind === 'none') return 'background:linear-gradient(135deg,transparent 44%,#e23a55 44% 56%,transparent 56%),#fffdf9;box-shadow:inset 0 0 0 1.6px #e4d9cc';
   return `--c1:${cr.swatch[0]};--c2:${cr.swatch[1]};--c3:${cr.swatch[2] || cr.swatch[0]};--c4:${cr.swatch[3] || cr.swatch[1]}`;
 }
 

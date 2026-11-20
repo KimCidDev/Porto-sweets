@@ -260,6 +260,7 @@ function getMat(name) {
 // ---------------------------------------------------------------- crust recipes
 // orient: lie (deitado na superfície), chunk (pedaço com giro), any (aleatório)
 const RECIPES = {
+  none: [],
   sprinkles: [{ geo: ['sprinkle'], mat: 'choc', count: 4200, colors: ['#2a140c', '#3b1d10', '#4a2615', '#31170d'], off: 0.016, s: [0.85, 1.2], orient: 'lie', tilt: [-0.15, 0.4] }],
   nonpareils: [{ geo: ['nonpareil'], mat: 'gloss', count: 3600, colors: ['#e8283d', '#f7b80f', '#1f8fe0', '#3fb83a', '#ef4f9c', '#ffffff', '#f57a14', '#7a4fe0'], off: 0.024, s: [0.85, 1.1], orient: 'any', jitter: 0.02 }],
   chunks: [{ geo: ['chunkA', 'chunkB', 'chunkC'], mat: 'nut', count: 1100, colors: ['#ecc893', '#dcae70', '#f2dcb2', '#c99355'], off: 0.03, s: [0.8, 1.4], orient: 'chunk', tilt: [-0.7, 0.7] }],
@@ -660,6 +661,11 @@ export class Stage {
   }
   setGalaxy(set, count) {
     const old = this.galaxy;
+    if (!set.length) {
+      this.galaxy = null;
+      if (old) { if (window.gsap) window.gsap.to(old, { fade: 0, duration: 0.6, onComplete: () => { this.root.remove(old); old.dispose(); } }); else { this.root.remove(old); old.dispose(); } }
+      return;
+    }
     const g = new Galaxy(set, count, 1, this.galaxySize);
     this.galaxy = g;
     this.root.add(g);

@@ -7,7 +7,7 @@ const TEASER_BOX = [['chocolate', 'granulado'], ['morango', 'acucar-rosa'], ['pi
 
 export function render() {
   const featured = PRODUCTS.slice(0, 4);
-  const marquee = [...FUDGES.map((f) => [L(f.name), f.color]), ...CRUSTS.map((c) => [L(c.name), c.swatch[0]])];
+  const marquee = [...FUDGES.map((f) => [L(f.name), f.color]), ...CRUSTS.filter((c) => c.kind !== 'none').map((c) => [L(c.name), c.swatch[0]])];
   const mq = marquee.map(([n, c]) => `<span><i style="background:${c}"></i>${esc(n)}</span>`).join('');
   return `
   <section class="hero">

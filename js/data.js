@@ -82,6 +82,10 @@ export const CRUSTS = [
   { id: 'brulee', kind: 'brulee', swatch: ['#c9832f', '#e0a24c', '#7a3f12'],
     name: { pt: 'Caramelo Brûlée', en: 'Caramel Brûlée' },
     desc: { pt: 'Casquinha de açúcar maçaricado, que estala na mordida.', en: 'A torched sugar shell that cracks when you bite.' } },
+  // sempre por último: o cliente pode querer só o recheio
+  { id: 'sem-crosta', kind: 'none', swatch: ['#f3ece2', '#e8dfd2', '#f3ece2'],
+    name: { pt: 'Sem crosta', en: 'No crust' },
+    desc: { pt: 'Só o recheio, liso e brilhante, para sentir o sabor puro.', en: 'Just the filling, smooth and glossy, for the pure flavour.' } },
 ];
 
 export const BOXES = [
