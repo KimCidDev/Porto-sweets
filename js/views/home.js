@@ -169,7 +169,7 @@ export function mount(root) {
       cur = n;
       stage.setCombo(fudgeById(n.fudge), crustById(n.crust));
       label(n.fudge, n.crust);
-    }, 4200);
+    }, 6000); // troca de sabor a cada 6 s (0,7x a frequência anterior de 4,2 s)
     cleanups.push(() => { clearInterval(iv); window.removeEventListener('resize', onR); stage.dispose(); });
   }
   const g = window.gsap;
