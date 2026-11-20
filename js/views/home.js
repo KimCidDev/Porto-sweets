@@ -118,7 +118,6 @@ export function render() {
         <p class="eyebrow">${t('pack.eyebrow')}</p>
         <h2>${t('pack.title')}</h2>
         <p class="lead">${t('pack.text')}</p>
-        <p class="note">${t('pack.note')}</p>
       </div>
     </div>
   </section>
