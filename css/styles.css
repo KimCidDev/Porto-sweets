@@ -742,3 +742,4 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .car-dots i { width: 8px; height: 8px; border-radius: 4px; background: var(--line); transition: width .3s, background .3s; }
   .car-dots i.on { width: 22px; background: var(--rasp); }
 }
+.cart-btn.on { background: var(--rasp); box-shadow: 0 0 0 4px rgba(226, 58, 85, .18); }

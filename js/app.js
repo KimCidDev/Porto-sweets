@@ -50,8 +50,11 @@ function reveal(root) {
   });
 }
 
+let lastPage = '#/';
 function show(animate = true) {
   const { key, r, params } = parse();
+  if (key !== 'carrinho' && key !== 'checkout') lastPage = location.hash || '#/';
+  header.querySelector('.cart-btn')?.classList.toggle('on', key === 'carrinho');
   const same = current === location.hash;
   current = location.hash;
   if (cleanup) { try { cleanup(); } catch (e) { console.warn(e); } cleanup = null; }
@@ -119,6 +122,9 @@ function setNav(key) { header.querySelectorAll('[data-nav]').forEach((a) => a.cl
 function closeMenu() { document.body.classList.remove('menu-open'); header.querySelector('.burger')?.setAttribute('aria-expanded', 'false'); }
 
 document.addEventListener('click', (e) => {
+  // carrinho funciona como liga/desliga: tocar de novo com o carrinho aberto volta para onde estava
+  const cb = e.target.closest('.cart-btn');
+  if (cb && parse().key === 'carrinho') { e.preventDefault(); location.hash = lastPage; return; }
   const l = e.target.closest('[data-lang]');
   if (l) { setLang(l.dataset.lang); return; }
   const g = e.target.closest('[data-goto]');
