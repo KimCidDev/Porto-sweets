@@ -3,7 +3,7 @@
 Brigadeiros brasileiros enrolados à mão em Calgary, com receita de família de Porto Alegre.
 E-commerce + site institucional com **Montador 3D**: o cliente escolhe o recheio (fudge) e a crosta, vê o brigadeiro em 3D na hora e monta a própria caixa.
 
-- **Link público (GitHub Pages):** https://kimciddev.github.io/porto-sweets/
+- **Link público (GitHub Pages):** https://kimciddev.github.io/Porto-sweets/
 - **Estado:** protótipo (v1 para validação). Pedidos, conta e pagamento são **simulados**.
 - **Site por** [Femik](https://femik.ca).
 
