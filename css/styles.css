@@ -714,3 +714,9 @@ main { position: relative; z-index: 1; min-height: 70vh; }
   .hero-copy .eyebrow { margin-bottom: 12px; }
   .cta-row { margin: 24px 0 18px; }
 }
+/* título do topo: 2 linhas no celular também em PT ("Um milhão de sabores." / "O seu é único.") */
+@media (max-width: 900px) {
+  .hero-copy .display { font-size: clamp(1.9rem, 9vw, 3.4rem); letter-spacing: -.035em; }
+  .hero-copy .display .line { white-space: nowrap; }
+  .hero-copy .eyebrow { font-size: .7rem; letter-spacing: .12em; white-space: nowrap; }
+}
