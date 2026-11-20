@@ -67,7 +67,7 @@ export function render() {
 
   <section class="section boxes" id="caixas">
     <div class="wrap">
-      <div class="sec-head" data-reveal><p class="eyebrow">${t('boxes.eyebrow')}</p><h2>${t('boxes.title')}</h2></div>
+      <div class="sec-head" data-reveal><p class="eyebrow">${t('boxes.eyebrow')}</p><h2>${t('boxes.title')}</h2><p class="lead">${t('boxes.gift')}</p></div>
       <div class="box-cards">
         ${BOXES.map((b, i) => `<article class="box-card" data-reveal style="--accent:${['#9cc9e6', '#b5cf3a', '#f39a4a', '#ec6f9c'][i]}">
           <div class="box-mini lid-${i % 2 ? 'framboesa' : 'marinho'}"><span>${b.size}</span></div>
@@ -85,21 +85,6 @@ export function render() {
         <div>${ICON.truck}<span><b>${t('deliv.delivery')}</b> · ${t('deliv.deliveryText', { fee: money(DELIVERY_FEE), free: money(FREE_SHIPPING) })}</span></div>
         <div>${ICON.pin}<span><b>${t('deliv.pickup')}</b> · ${t('deliv.pickupText')}</span></div>
         <div>${ICON.clock}<span>${t('deliv.ahead')}</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="section pack">
-    <div class="wrap pack-grid">
-      <div class="pack-visual" data-reveal>
-        <div class="pk pk-lid-a"><img src="assets/logo-icone.webp" alt=""></div>
-        <div class="pk pk-lid-b"></div>
-        <div class="pk pk-long"><i></i><i></i><i></i><i></i></div>
-      </div>
-      <div class="pack-copy" data-reveal>
-        <p class="eyebrow">${t('pack.eyebrow')}</p>
-        <h2>${t('pack.title')}</h2>
-        <p class="lead">${t('pack.text')}</p>
       </div>
     </div>
   </section>
@@ -178,7 +163,6 @@ export function mount(root) {
     g.from(root.querySelectorAll('.hero .eyebrow, .hero .lead, .hero .cta-row, .hero .stats'), { y: 24, opacity: 0, duration: 0.9, stagger: 0.08, delay: 0.45, ease: 'power3.out' });
     if (window.ScrollTrigger) {
       g.to(root.querySelector('.teaser-seal'), { rotate: 30, scrollTrigger: { trigger: '.teaser', scrub: true } });
-      g.fromTo(root.querySelectorAll('.pack-visual .pk'), { y: 60, rotate: (i) => [-8, 6, -3][i] }, { y: 0, rotate: (i) => [-4, 3, -1][i], stagger: 0.1, scrollTrigger: { trigger: '.pack', start: 'top 85%', end: 'center center', scrub: 1 } });
     }
   }
   return () => cleanups.forEach((f) => f());
