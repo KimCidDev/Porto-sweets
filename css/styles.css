@@ -675,3 +675,19 @@ main { position: relative; z-index: 1; min-height: 70vh; }
 }
 /* logo inteiro dentro do disco da Nossa história */
 .story-logo img { width: 86%; transform: translateY(-1%); }
+
+/* cabeçalho no celular: colado no topo, itens centrados; menu fechado não aparece */
+@media (max-width: 900px) {
+  .site-header { top: 0; }
+  .hdr { height: 64px; align-items: center; }
+  .brand, .hdr-actions { height: 64px; align-items: center; }
+  .brand img { width: 44px; height: 44px; display: block; }
+  .nav { top: 64px; inset: 64px 0 auto 0; transform: translateY(calc(-100% - 64px)); visibility: hidden; box-shadow: none; transition: transform .4s cubic-bezier(.3, 1.2, .5, 1), visibility 0s linear .4s; }
+  .menu-open .nav { transform: none; visibility: visible; box-shadow: 0 30px 40px -20px rgba(0, 0, 0, .25); transition: transform .4s cubic-bezier(.3, 1.2, .5, 1), visibility 0s; }
+  .hero { margin-top: -64px; }
+  .cart-btn { width: 44px; height: 44px; }
+  .burger { width: 44px; height: 44px; }
+}
+@media (max-width: 900px) {
+  .site-header.scrolled, .menu-open .site-header { background: rgba(251, 248, 243, .97); }
+}
