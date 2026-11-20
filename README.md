@@ -34,6 +34,9 @@ python3 -m http.server 8000
 # abrir http://localhost:8000
 ```
 
+### Publicar uma atualização
+Rodar `python3 tools/versionar.py` antes do commit: ele muda a versão de todos os arquivos JS/CSS no `index.html`, para o navegador não usar cópias antigas em cache.
+
 ## Estrutura
 
 ```
